@@ -12,6 +12,7 @@ async def command_start_handler(message: Message) -> None:
 @router.message()
 async def echo_handler(message: Message) -> None:
     try:
+        print(message.text)
         await message.send_copy(chat_id=message.chat.id)
     except TypeError:
         await message.answer("Nice try!")

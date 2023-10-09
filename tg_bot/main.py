@@ -15,7 +15,7 @@ from .dispatcher import get_dispatcher
 
 async def start_bot():
 
-    logging_bot()
+    logging_bot
 
     dp = get_dispatcher()
     bot = Bot(token=settings.bots.bot_token)
