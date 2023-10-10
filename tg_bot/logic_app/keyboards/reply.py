@@ -17,8 +17,8 @@ catalog_kb2 = KeyboardButton(text='⚡ Luxury Copy')
 
 
 # order_categories -----------------------------------------------
-order_categories_kb1 = KeyboardButton(text='✅ В наличии')
-order_categories_kb2 = KeyboardButton(text='📬 На заказ')
+order_categories_kb2 = KeyboardButton(text='✅ В наличии')
+order_categories_kb1 = KeyboardButton(text='📬 На заказ')
 
 
 # product_categories ---------------------------------------------
