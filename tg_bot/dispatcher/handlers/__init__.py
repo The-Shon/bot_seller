@@ -1,1 +1,0 @@
-from .handlers_main import routers

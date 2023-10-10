@@ -6,4 +6,3 @@ class StateForm(StatesGroup):
     ORIGINAL_ORDER = State()
     COPY_ORDER = State()
     
-

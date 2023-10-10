@@ -1,17 +1,10 @@
-from aiogram import Bot, Dispatcher, Router, types
-
-from aiogram.filters import CommandStart
-from aiogram.types import Message
-# from aiogram.utils.markdown import hbold
-# from aiogram.enums import ParseMode
-
+from aiogram import Bot
 
 # my imports -----
-from .logging_app.logging_main import logging_bot
-from .settings_app.settings_main import settings
-from .dispatcher import get_dispatcher
+from .logging_app import logging_bot
+from .settings_app import settings
+from .logic_app import get_dispatcher
 # ----------------
-
 
 async def start_bot():
 
