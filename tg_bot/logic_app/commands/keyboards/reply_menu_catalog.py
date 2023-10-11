@@ -1,8 +1,8 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 # catalog --------------------------------------------------------
-catalog_kb1 = KeyboardButton(text='🔥 Original')
-catalog_kb2 = KeyboardButton(text='⚡ Luxury Copy')
+# catalog_kb1 = KeyboardButton(text='🔥 Original')
+# catalog_kb2 = KeyboardButton(text='⚡ Luxury Copy')
 
 
 # order_categories -----------------------------------------------
@@ -21,14 +21,14 @@ back_kb = KeyboardButton(text='⬅️ Назад')
 cancel_kb = KeyboardButton(text='↪️ Отмена')
 
 
-def get_kb_catalog() -> ReplyKeyboardMarkup:
-    kb = [
-        [ catalog_kb1 ],
-        [ catalog_kb2 ],
-        [ back_kb ],
-    ]
-    keyboard = ReplyKeyboardMarkup(keyboard=kb, resize_keyboard=True)
-    return keyboard
+# def get_kb_catalog() -> ReplyKeyboardMarkup:
+#     kb = [
+#         [ catalog_kb1 ],
+#         [ catalog_kb2 ],
+#         [ back_kb ],
+#     ]
+#     keyboard = ReplyKeyboardMarkup(keyboard=kb, resize_keyboard=True)
+#     return keyboard
 
 
 def get_kb_order_categories() -> ReplyKeyboardMarkup:

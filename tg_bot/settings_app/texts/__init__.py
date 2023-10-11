@@ -1,3 +1,3 @@
-from . import start_text
-from . import menu_catalog
-from . import menu_make_order
+from . import text_start
+from . import text_menu_catalog
+from . import text_menu_make_order
