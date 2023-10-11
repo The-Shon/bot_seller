@@ -1,8 +1,7 @@
 from aiogram.fsm.state import State, StatesGroup
 
-class MainStateForm(StatesGroup):
-    START_MENU = State()
+class CatalogStateForm(StatesGroup):
+    
     CATALOG = State()
     ORDER = State()
     CATEGORIES = State()
-    

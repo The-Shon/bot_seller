@@ -1,9 +1,11 @@
 from aiogram import Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 
-from .handlers_user import user_router
+from .commands import (user_router_start,
+                       user_router_catalog,
+                       user_router_make_order)
 
-routers = (user_router,)
+routers = (user_router_start, user_router_catalog, user_router_make_order,)
 
 def get_dispatcher():
     dp = Dispatcher(storage=MemoryStorage())
