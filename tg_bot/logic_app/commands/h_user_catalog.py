@@ -2,6 +2,7 @@ from aiogram import Router
 from aiogram.types import Message
 from aiogram.filters import CommandStart
 from aiogram.filters import Command
+from aiogram.filters import StateFilter
 from aiogram import F
 from aiogram.fsm.context import FSMContext
 
@@ -17,7 +18,7 @@ from .h_user_start import cmd_start
 user_router_catalog = Router()
 
 # ----------------------------------------------------------------------------------------
-@user_router_catalog.message(F.text == '🛍 Каталог')
+@user_router_catalog.message(F.text.contains('Каталог'))
 async def cmd_catalog(message: Message, state=FSMContext) -> None:
     await message.answer(text=text.get_order_text(), reply_markup=kb.get_kb_order_categories())
     await state.set_state(CatalogStateForm.CATALOG)
@@ -39,7 +40,7 @@ async def cmd_catalog(message: Message, state=FSMContext) -> None:
 
 
 # ----------------------------------------------------------------------------------------
-@user_router_catalog.message(F.text == '✅ В наличии', CatalogStateForm.CATALOG)
+@user_router_catalog.message(F.text.contains('В наличии'), CatalogStateForm.CATALOG)
 async def cmd_categories_in_stock(message: Message, state=FSMContext) -> None:
     await message.answer(text=text.get_categories_text(), reply_markup=kb.get_kb_product_categories())
     await state.set_state(CatalogStateForm.CATEGORIES)
@@ -47,7 +48,7 @@ async def cmd_categories_in_stock(message: Message, state=FSMContext) -> None:
     # TODO нужно допилить передачу данных о type_categories
 
 
-@user_router_catalog.message(F.text == '📬 На заказ', CatalogStateForm.CATALOG)
+@user_router_catalog.message(F.text.contains('На заказ'), CatalogStateForm.CATALOG)
 async def cmd_categories_to_order(message: Message, state=FSMContext) -> None:
     await message.answer(text=text.get_categories_text(), reply_markup=kb.get_kb_product_categories())
     await state.set_state(CatalogStateForm.CATEGORIES)
@@ -55,7 +56,7 @@ async def cmd_categories_to_order(message: Message, state=FSMContext) -> None:
 
 
 # ----------------------------------------------------------------------------------------
-@user_router_catalog.message(F.text == '👟 Кросовки', CatalogStateForm.CATEGORIES)
+@user_router_catalog.message(F.text.contains('Кроссовки'), CatalogStateForm.CATEGORIES)
 async def cmd_sneakers(message: Message, state=FSMContext) -> None:
     await message.answer(text=text.get_description_categories_text(type_categories='Кросовки'), reply_markup=kb.get_kb_product_categories())
     await state.update_data(categories=EnumsCategory.sneakers)
@@ -65,7 +66,7 @@ async def cmd_sneakers(message: Message, state=FSMContext) -> None:
     # await state.set_state(MainStateForm.PRODUCT)
 
 
-@user_router_catalog.message(F.text == '🩳 Одежда', CatalogStateForm.CATEGORIES)
+@user_router_catalog.message(F.text.contains('Одежда'), CatalogStateForm.CATEGORIES)
 async def cmd_clothes(message: Message, state=FSMContext) -> None:
     await message.answer(text=text.get_description_categories_text(type_categories='Одежда'), reply_markup=kb.get_kb_product_categories())
     await state.update_data(categories=EnumsCategory.clothes)
@@ -75,7 +76,7 @@ async def cmd_clothes(message: Message, state=FSMContext) -> None:
     # await state.set_state(MainStateForm.PRODUCT)
 
 
-@user_router_catalog.message(F.text == '🧢 Аксессуары', CatalogStateForm.CATEGORIES)
+@user_router_catalog.message(F.text.contains('Аксессуары'), CatalogStateForm.CATEGORIES)
 async def cmd_accessories(message: Message, state=FSMContext) -> None:
     await message.answer(text=text.get_description_categories_text(type_categories='Аксессуары'), reply_markup=kb.get_kb_product_categories())
     await state.update_data(categories=EnumsCategory.accessories)
@@ -86,7 +87,7 @@ async def cmd_accessories(message: Message, state=FSMContext) -> None:
 
 
 # ----------------------------------------------------------------------------------------
-@user_router_catalog.message(F.text == '⬅️ Назад')
+@user_router_catalog.message(F.text.contains('Назад'), StateFilter(CatalogStateForm))
 async def cmd_back(message: Message, state=FSMContext) -> None:
     state_form = await state.get_state()
 

@@ -11,7 +11,7 @@ order_categories_kb1 = KeyboardButton(text='📬 На заказ')
 
 
 # product_categories ---------------------------------------------
-product_categories_kb1 = KeyboardButton(text='👟 Кросовки')
+product_categories_kb1 = KeyboardButton(text='👟 Кроссовки')
 product_categories_kb2 = KeyboardButton(text='🩳 Одежда')
 product_categories_kb3 = KeyboardButton(text='🧢 Аксессуары')
 
