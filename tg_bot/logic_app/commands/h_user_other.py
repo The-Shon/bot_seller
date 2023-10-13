@@ -1,17 +1,15 @@
 from aiogram import Router
 from aiogram.types import Message
-from aiogram.filters import CommandStart
-from aiogram.filters import Command
-from aiogram import F
-from aiogram.fsm.context import FSMContext
+from aiogram import Bot
+
 
 user_router_other = Router()
 
 @user_router_other.message()
-async def echo_handler(message: Message) -> None:
+async def echo_handler(message: Message, bot: Bot) -> None:
     try:
         print(message.text)
-        await message.send_copy(chat_id=message.chat.id)
+        await message.answer(text=str(message.from_user.id))
 
     except TypeError:
         await message.answer("Nice try!")

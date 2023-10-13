@@ -77,3 +77,13 @@ def get_text_order_address():
 Или нажимай на "🌏 Отправить геолокацию"
 
 -----------------------------------------------------------'''
+
+def get_order(state_data: dict) ->str:
+    return f'''Модель - {state_data['model_name']}
+Размер - {state_data['user_size']}
+
+Контакт - @{str(state_data['user_name'])}
+ФИО - {state_data['full_name']}
+Номер телефона - {state_data['phone_number']}
+
+Адресс - {state_data['address']}'''

@@ -4,11 +4,14 @@ from aiogram.types import ContentType
 from aiogram.filters import CommandStart
 from aiogram import F
 from aiogram.fsm.context import FSMContext
+from aiogram import Bot
+from aiogram.types import Location
 
 # my imports --------------------------------
 from .stateforms import MakeOrderStateForm
 from .keyboards import reply_make_order as kb
 from ...settings_app import text_menu_make_order as text
+from ...settings_app import settings
 from .utils import regular_expressions as re
 
 from .h_user_start import cmd_start
@@ -22,6 +25,7 @@ async def cmd_enter_model_name(message: Message, state=FSMContext) -> None:
     await message.answer(text=text.get_text_order_main())
     await message.answer(text=text.get_text_order_model_name(), reply_markup=kb.get_kb_order_main())
     await state.set_state(MakeOrderStateForm.ENTER_MODEL_NAME)
+    await state.update_data(user_name=message.from_user.username)
 
 
 @user_router_make_order.message(MakeOrderStateForm.ENTER_MODEL_NAME)
@@ -73,18 +77,21 @@ async def cmd_enter_address(message: Message, state=FSMContext) -> None:
 
 
 @user_router_make_order.message(MakeOrderStateForm.ENTER_USER_ADDRESS, F.content_type == ContentType.LOCATION)
-async def cmd_order_finish(message: Message, state=FSMContext) -> None:
-    await message.answer(text='все отлично', reply_markup=kb.get_kb_order_main())
+async def cmd_order_finish(message: Message, bot: Bot, state=FSMContext) -> None:
     await state.update_data(address=message.location)
     state_data = await state.get_data()
 
-    await message.answer(text=str(state_data))
+    await bot.send_message(chat_id=settings.bots.manager_id, text=text.get_order(state_data=state_data))
+    await bot.send_location(chat_id=settings.bots.manager_id, latitude=message.location.latitude, longitude=message.location.longitude)
+    await message.answer(text='Ваши данные успешно отправлены', reply_markup=kb.get_kb_order_main())
+    await cmd_start(message, state)
 
 
 @user_router_make_order.message(MakeOrderStateForm.ENTER_USER_ADDRESS)
-async def cmd_order_finish(message: Message, state=FSMContext) -> None:
-    await message.answer(text='все отлично', reply_markup=kb.get_kb_order_main())
+async def cmd_order_finish(message: Message, bot: Bot, state=FSMContext,) -> None:
     await state.update_data(address=message.text)
     state_data = await state.get_data()
 
-    await message.answer(text=str(state_data))
+    await bot.send_message(chat_id=settings.bots.manager_id, text=text.get_order(state_data=state_data))
+    await message.answer(text='Ваши данные успешно отправлены', reply_markup=kb.get_kb_order_main())
+    await cmd_start(message, state)
