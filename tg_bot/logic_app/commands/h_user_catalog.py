@@ -12,7 +12,7 @@ from .stateforms import CatalogStateForm, EnumsCatalog ,EnumsCategory
 from .keyboards import reply_menu_catalog as kb
 from ...settings_app import text_menu_catalog as text
 
-from .h_user_start import cmd_start
+from .h_user_start import cmd_menu
 # -------------------------------------------
 
 user_router_catalog = Router()
@@ -92,6 +92,6 @@ async def cmd_back(message: Message, state=FSMContext) -> None:
     state_form = await state.get_state()
 
     if state_form == CatalogStateForm.CATALOG:
-        await cmd_start(message, state)
+        await cmd_menu(message, state)
     elif state_form == CatalogStateForm.CATEGORIES:
         await cmd_catalog(message, state)

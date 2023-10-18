@@ -1,11 +1,11 @@
 from aiogram import Router
 from aiogram.types import Message
 from aiogram.types import ContentType
-from aiogram.filters import CommandStart
 from aiogram import F
 from aiogram.fsm.context import FSMContext
 from aiogram import Bot
-from aiogram.types import Location
+from aiogram.filters import StateFilter
+
 
 # my imports --------------------------------
 from .stateforms import MakeOrderStateForm
@@ -14,7 +14,7 @@ from ...settings_app import text_menu_make_order as text
 from ...settings_app import settings
 from .utils import regular_expressions as re
 
-from .h_user_start import cmd_start
+from .h_user_start import cmd_menu
 # -------------------------------------------
 
 user_router_make_order = Router()
@@ -44,9 +44,9 @@ async def cmd_enter_user_name(message: Message, state=FSMContext) -> None:
             await state.set_state(MakeOrderStateForm.ENTER_USER_FULL_NAME)
             await state.update_data(user_size=message.text)
         else:
-            await message.answer(text=text.get_text_unreal_size(), reply_markup=kb.get_kb_order_main())
+            await message.answer(text=text.get_text_unreal_size())
     except:
-        await message.answer(text=text.get_text_incorrect_size(), reply_markup=kb.get_kb_order_main())      
+        await message.answer(text=text.get_text_incorrect_size())      
 
 
 @user_router_make_order.message(MakeOrderStateForm.ENTER_USER_FULL_NAME)
@@ -56,7 +56,7 @@ async def cmd_enter_phone_number(message: Message, state=FSMContext) -> None:
         await state.set_state(MakeOrderStateForm.ENTER_USER_PHONE_NUMBER)
         await state.update_data(full_name=message.text)
     else:
-        await message.answer(text=text.get_text_incorrect_name(), reply_markup=kb.get_kb_order_get_number())  
+        await message.answer(text=text.get_text_incorrect_name())  
 
 
 @user_router_make_order.message(MakeOrderStateForm.ENTER_USER_PHONE_NUMBER, F.content_type == ContentType.CONTACT)
@@ -83,8 +83,8 @@ async def cmd_order_finish(message: Message, bot: Bot, state=FSMContext) -> None
 
     await bot.send_message(chat_id=settings.bots.manager_id, text=text.get_order(state_data=state_data))
     await bot.send_location(chat_id=settings.bots.manager_id, latitude=message.location.latitude, longitude=message.location.longitude)
-    await message.answer(text='Ваши данные успешно отправлены', reply_markup=kb.get_kb_order_main())
-    await cmd_start(message, state)
+    await message.answer(text='Ваши данные успешно отправлены')
+    await cmd_menu(message, state)
 
 
 @user_router_make_order.message(MakeOrderStateForm.ENTER_USER_ADDRESS)
@@ -94,4 +94,9 @@ async def cmd_order_finish(message: Message, bot: Bot, state=FSMContext,) -> Non
 
     await bot.send_message(chat_id=settings.bots.manager_id, text=text.get_order(state_data=state_data))
     await message.answer(text='Ваши данные успешно отправлены', reply_markup=kb.get_kb_order_main())
-    await cmd_start(message, state)
+    await cmd_menu(message, state)
+
+
+@user_router_make_order.message(F.text == '↪️ Отмена', StateFilter(MakeOrderStateForm))
+async def cmd_back(message: Message, state=FSMContext) -> None:
+    await cmd_menu(message, state)

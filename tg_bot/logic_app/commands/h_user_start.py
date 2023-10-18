@@ -16,10 +16,11 @@ user_router_start = Router()
 # ----------------------------------------------------------------------------------------
 @user_router_start.message(CommandStart())
 async def cmd_start(message: Message, state=FSMContext) -> None:
-    await message.answer(text=text.get_start_menu_text(), reply_markup=kb.get_kb_start_menu())
+    await message.answer(text=text.get_text_start(), reply_markup=kb.get_kb_start_menu())
+    await message.answer(text=text.get_text_menu(), reply_markup=kb.get_kb_start_menu())
     await state.clear()
-    
 
-@user_router_start.message(F.text == '↪️ Отмена')
-async def cmd_back(message: Message, state=FSMContext) -> None:
-    await cmd_start(message, state)
+@user_router_start.message(Command('menu'))
+async def cmd_menu(message: Message, state=FSMContext) -> None:
+    await message.answer(text=text.get_text_menu(), reply_markup=kb.get_kb_start_menu())
+    await state.clear()

@@ -8,6 +8,7 @@ class Bots:
     bot_token: str
     admin_id: str
     manager_id: str
+    number_messages_review: int
 
 @dataclass
 class Settings:
@@ -21,7 +22,8 @@ def get_settings():
         bots=Bots(
             bot_token=os.getenv('TOKEN_TG_BOT'),
             admin_id=os.getenv('ADMIN_ID_TG_BOT'),
-            manager_id=os.getenv('MANAGER_ID')
+            manager_id=os.getenv('MANAGER_ID'),
+            number_messages_review=int(os.getenv('NUMBER_MESSAGES_REVIEW'))
         )
     )
 
